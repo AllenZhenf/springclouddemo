@@ -1,0 +1,57 @@
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: false
+    metadata-map:
+      mymetadata: "自定义的元数据"
+server:
+  port: 8083
+
+spring:
+  application:
+    name: microservice-consumer-movie
+
+  main:
+    allow-bean-definition-overriding: true
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      percentage: 1.0
+
+microservice-provider-user:
+  ribbon:
+    NFLoadBalanceClassName: com.netflix.loadbalancer.RandomRule
+#feign:
+#  compression:
+#    request:
+#      enabled: true  #启用feign压缩功能
+#      mime-types: text/xml,application/xml,application/json #用于支持的媒体类型列表
+#      min-request-size: 2048  #用于设置请求的最小阈值，默认是2048
+#    response:
+#      enabled: true
+logging:
+  level:
+    com.szf.microserviceconsumermovie.service.UserFeignClient: DEBUG #将Feign接口的日志级别设置城DEBUG，因为Feign的Logger.Level只对DEBUG作出响应
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'  #spring2.0访问/actuator/hystrix.stream
+#feign:
+#  hystrix:
+#    enabled: false  全局禁用Hystrix
+
+#设置hystrix的超时时间，防止hystrix/feign整合后首次访问失败的情况
+#hystrix:
+#  command:
+#    default:
+#      exection:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 5000

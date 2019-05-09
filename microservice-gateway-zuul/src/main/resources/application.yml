@@ -1,0 +1,41 @@
+server:
+  port: 8040
+spring:
+  application:
+    name: microservice-gateway-zuul
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+zuul:
+  routes:
+    #设置代理指定的微服务路径
+    microservice-consumer-movie: /user/**
+#    user-route:
+#      path: /user/**
+#      service-id: microservice-provider-user
+#  prefix: /api
+#  strip-prefix: false #true则关闭/api前缀显示
+
+  #ignored-patterns: /**/admin/**  #忽略包含admin的路径
+
+#  ignored-services:  microservice-provider-user 设置忽略代理的服务
+
+#ribbon:
+#  eureka:
+#    enabled: false
+
+  #配置负载均衡地址
+#microservice-provider-user:
+#   ribbon:
+#       listOfServers:
+
+#  PreRequestLogFilter:
+#    pre:
+#      disable: true  #禁用过滤器

@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: microservice-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/itmuch/spring-cloud-config-repo  #配置git仓库的地址
+          repos:
+            #simple仓库没有加模糊匹配，只匹配名为simple的程序
+             simple: https://github.com/simple/config-repo
+             #local仓库匹配local开头的应用程序
+             lcoal:
+               pattern: local*
+               uri: file:/home/configsvc/config-repo
+             #special仓库匹配包含special和dev的应用程序
+             special:
+               pattern: special*/dev*,*special*/dev*
+               uri: https://github.com/special/config-repo
+
+          #搜索子目录foo跟bat开头的配置文件
+          search-paths: foo,bat*
+          #启动时clone git仓库，可以帮助快速识别错误的配置源，比如无效的git仓库
+          clone-on-start: true
+
+logging:
+  level:
+    org.springframework.cloud: debug
+    org.springframework.boot: debug
